@@ -1,4 +1,5 @@
 Assets
+__pycache__
 /code/__pycache__/
 code/__pycache__/level.cpython-310.pyc
 code/__pycache__/player.cpython-310.pyc
@@ -7,3 +8,5 @@ code/__pycache__/tile.cpython-310.pyc
 code/__pycache__/level.cpython-310.pyc
 code/__pycache__/player.cpython-310.pyc
 code/__pycache__/settings.cpython-310.pyc
+code/__pycache__/settings.cpython-310.pyc
+code/__pycache__/level.cpython-310.pyc
