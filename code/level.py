@@ -6,6 +6,7 @@ from debug import debug
 from support import *
 import numpy as np
 from weapon import Weapon
+from ui import UI
 
 class Level:
     def __init__(self):
@@ -23,6 +24,9 @@ class Level:
         #sprite setup
         self.create_map()
 
+        # user interface 
+        self.ui = UI()
+        
     def create_map(self):
         layouts = {
             'boundary': import_csv_layout('map/map_FloorBlocks.csv'),
@@ -68,6 +72,7 @@ class Level:
         # update and draw the game 
         self.visible_sprites.custom_draw(self.player)
         self.visible_sprites.update()
+        self.ui.display(self.player)
         debug(self.player.direction)
 
 class YSortCameraGroup(pygame.sprite.Group):
