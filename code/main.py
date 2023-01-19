@@ -20,6 +20,13 @@ class Game:
                 pygame.display.update()
                 self.clock.tick(FPS)
             else:
+                youDiedImage = pygame.image.load('graphics/tilemap/you_died.png').convert()
+                self.screen.blit(youDiedImage,(0,0))
+                magic_font = pygame.font.Font(UI_FONT, 50)
+                instruction_surface = magic_font.render('Nacisnij Spacje aby zrestartowac gre',False, (54.5,0,0))
+                instruction_rect = instruction_surface.get_rect(center = (650,600))
+                self.screen.blit(instruction_surface,instruction_rect)
+                pygame.display.update()
                 key = pygame.key.get_pressed()
                 if key[pygame.K_SPACE]:
                     self.__init__()
