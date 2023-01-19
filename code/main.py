@@ -14,16 +14,22 @@ class Game:
 
     def run(self):
         while True:
+            if not self.level.player.game_over:
+                self.screen.fill('black')
+                self.level.run()
+                pygame.display.update()
+                self.clock.tick(FPS)
+            else:
+                key = pygame.key.get_pressed()
+                if key[pygame.K_SPACE]:
+                    self.__init__()
+                    self.level.player.game_over = False
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     pygame.quit()
                     sys.exit()
 
-            self.screen.fill('black')
-            self.level.run()
-            pygame.display.update()
-            self.clock.tick(FPS)
-
 if __name__ == '__main__':
-    game = Game()
-    game.run()
+    while True:
+        game = Game()
+        game.run()

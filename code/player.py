@@ -33,6 +33,7 @@ class Player(Entity):
         self.energy = self.stats['energy']
         self.exp = 123
         self.speed = self.stats['speed']
+        self.game_over = False
 
         # damage timer
         self.vulnerable = True
@@ -127,9 +128,14 @@ class Player(Entity):
         weapon_damage = weapon_data[self.weapon]['damage']
         return base_damage + weapon_damage
 
+    def check_death(self):
+        if self.health <= 0:
+            self.game_over = True
+
     def update(self):
         self.input()
         self.cooldowns()
         self.get_status()
         self.animate()
         self.move(self.speed)
+        self.check_death()

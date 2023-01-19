@@ -4,6 +4,7 @@ HEIGTH   = 720
 FPS      = 100
 TILESIZE = 64
 
+
 weapon_data = {
     'sword': {'cooldown': 100, 'damage': 15,'graphic':'../graphics/weapons/sword/full.png'},}
 
