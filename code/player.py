@@ -34,6 +34,11 @@ class Player(Entity):
         self.exp = 123
         self.speed = self.stats['speed']
 
+        # damage timer
+        self.vulnerable = True
+        self.hurt_time = None
+        self.invulnerability = 500
+
     def import_player_assets(self):
         character_path = 'graphics/player/'
         self.animations = {'up':[],'down':[],'left':[],'right':[],'left_idle': [],'up_idle': [],'down_idle': [],
@@ -102,6 +107,9 @@ class Player(Entity):
             if current_time - self.attack_time >= self.attack_cooldown + weapon_data[self.weapon]['cooldown']:
                 self.attacking = False
                 self.destroy_attack()
+        if not self.vulnerable:
+            if current_time - self.hurt_time >= self.invulnerability:
+                self.vulnerable = True
 
     def animate(self):
         animation = self.animations[self.status]
