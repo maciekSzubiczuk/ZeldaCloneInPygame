@@ -34,6 +34,11 @@ class Enemy(Entity):
         self.can_attack = True
         self.attack_time = None
         self.attack_cooldown = 400
+
+        # invincibility timer
+        self.vulnerable = True
+        self.hit_time = None
+        self.invincibility_duration = 300
         
     def import_graphics(self,name):
         self.animations = {'idle':[],'move':[],'attack':[]}
@@ -90,10 +95,22 @@ class Enemy(Entity):
             if current_time - self.attack_time >= self.attack_cooldown:
                 self.can_attack = True
 
+    def get_damage(self,player,attack_type):
+        if self.vulnerable:
+            if attack_type == 'weapon':
+                self.health -= player.get_full_weapon_damage()
+            
+            self.vulnerable = False
+
+    def check_death(self):
+        if self.health <= 0:
+            self.kill()
+
     def update(self):
         self.move(self.speed)
         self.animate()
         self.cooldown()
+        self.check_death()
     
     def enemy_update(self,player):
         self.get_status(player)

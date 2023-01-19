@@ -21,6 +21,8 @@ class Level:
         
         # attack sprites 
         self.current_attack = None
+        self.attack_sprites = pygame.sprite.Group()
+        self.attackable_sprites = pygame.sprite.Group()
 
         #sprite setup
         self.create_map()
@@ -59,35 +61,34 @@ class Level:
                                 elif col == '391': monster_name = 'spirit'
                                 elif col == '392': monster_name = 'raccoon'
                                 else : monster_name = 'squid'
-                                Enemy(monster_name,(x,y),[self.visible_sprites],self.obstacle_sprites)
-
-
-
-        #for row_index,row in enumerate(WORLD_MAP):
-        #    for col_index,col in enumerate(row):
-        #       x = col_index * TILESIZE
-        #       y = row_index * TILESIZE
-        #       if col == 'x':
-        #           Tile((x,y),[self.visible_sprites,self.obstacle_sprites])
-        #       if col == 'p':
-        #           self.player = Player((x,y),[self.visible_sprites],self.obstacle_sprites)
-        
+                                Enemy(monster_name,(x,y),[self.visible_sprites,self.attackable_sprites]
+                                ,self.obstacle_sprites)
 
     def create_attack(self):
-        self.current_attack = Weapon(self.player,[self.visible_sprites])
+        self.current_attack = Weapon(self.player,[self.visible_sprites,self.attack_sprites])
 
     def destroy_attack(self):
         if self.current_attack:
             self.current_attack.kill()
         self.current_attack = None
 
-            
+
+    def player_attack_logic(self):
+        if self.attack_sprites:
+             for attack_sprite in self.attack_sprites:
+                collision_sprites = pygame.sprite.spritecollide(attack_sprite,self.attackable_sprites,False)
+                if collision_sprites:
+                    for target_sprite in collision_sprites:
+                        if target_sprite.sprite_type == 'enemy':
+                            target_sprite.get_damage(self.player,attack_sprite.sprite_type)
+
 
     def run(self):
         # update and draw the game 
         self.visible_sprites.custom_draw(self.player)
         self.visible_sprites.update()
         self.visible_sprites.enemy_update(self.player)
+        self.player_attack_logic()
         self.ui.display(self.player)
         debug(self.player.direction)
 
@@ -121,3 +122,14 @@ class YSortCameraGroup(pygame.sprite.Group):
         enemy_sprites = [sprite for sprite in self.sprites() if hasattr(sprite,'sprite_type') and sprite.sprite_type == 'enemy']
         for enemy in enemy_sprites:
             enemy.enemy_update(player)
+
+
+  #for row_index,row in enumerate(WORLD_MAP):
+        #    for col_index,col in enumerate(row):
+        #       x = col_index * TILESIZE
+        #       y = row_index * TILESIZE
+        #       if col == 'x':
+        #           Tile((x,y),[self.visible_sprites,self.obstacle_sprites])
+        #       if col == 'p':
+        #           self.player = Player((x,y),[self.visible_sprites],self.obstacle_sprites)
+        
