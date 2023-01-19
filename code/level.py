@@ -82,6 +82,7 @@ class Level:
                         if target_sprite.sprite_type == 'enemy':
                             target_sprite.get_damage(self.player,attack_sprite.sprite_type)
 
+    
 
     def run(self):
         # update and draw the game 
