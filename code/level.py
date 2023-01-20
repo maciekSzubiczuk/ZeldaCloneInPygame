@@ -4,7 +4,6 @@ from tile import Tile
 from player import Player
 from debug import debug
 from support import *
-import numpy as np
 from weapon import Weapon
 from ui import UI
 from enemy import Enemy
@@ -48,11 +47,7 @@ class Level:
                         y = row_index * TILESIZE  
                         if style == 'boundary':
                             Tile((x,y),[self.obstacle_sprites],'invisible')
-                        if style == 'object':
-                            if(int(col)<np.size(graphics['objects'])):
-                                surf = graphics['objects'][int(col)]
-                                Tile((x,y),[self.visible_sprites,self.obstacle_sprites],'object',surf)
-
+                       
                         if style == 'entities':
                             if col=='394' :
                                 self.player = Player((x,y),[self.visible_sprites],self.obstacle_sprites,self.create_attack,self.destroy_attack)
